@@ -1,0 +1,8 @@
+.character-child .ant-form-item{
+    height: 100% !important;
+}
+.character-child .ant-row.ant-form-item-row{
+    height: 100% !important;
+    display: flex;
+    justify-content: space-between;
+}
