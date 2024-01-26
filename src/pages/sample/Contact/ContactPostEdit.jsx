@@ -126,7 +126,6 @@ const ContactPostEdit = () => {
 
     const onFinish = (values) => {
 
-        console.log(values)
         if (editContactData) {
             putContact({url: '/about/contacts', data: values, id: editId})
         } else {

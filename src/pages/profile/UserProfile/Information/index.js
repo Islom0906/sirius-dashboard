@@ -9,7 +9,7 @@ const Information = () => {
     console.log('Success:', values);
   };
   const {Option} = Select;
-  console.log(countryList);
+
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
