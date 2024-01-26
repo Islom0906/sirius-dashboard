@@ -3,6 +3,7 @@ import { useQuery} from "react-query";
 import apiService from "../../../@crema/services/apis/api";
 import {message,Typography } from 'antd';
 import { useMemo } from 'react';
+import moment from "moment";
 const { Title } = Typography;
 
 
@@ -13,7 +14,6 @@ const DealersChart = () => {
         () => apiService.getData('/products'),
         {
             onError: (error) => {
-
                 message.error(error);
             },
         },
@@ -22,9 +22,8 @@ const DealersChart = () => {
         const productByDate = {};
 
         data?.forEach((product) => {
-            const createAt = product.created_at;
+            const createAt =moment(product.created_at).format("DD.MM.YYYY") ;
             const date = createAt.split('T')[0];
-
             if (productByDate[date]) {
                 productByDate[date].product += 1;
             } else {

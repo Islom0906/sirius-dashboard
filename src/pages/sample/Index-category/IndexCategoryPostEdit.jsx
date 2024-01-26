@@ -34,7 +34,6 @@ const IndexCategoryPostEdit = () => {
     const [fileListProps, setFileListProps] = useState([]);
     const [checkType, setCheckType] = useState("")
 
-    console.log(checkType)
 
     // query-category-get
     const {data: categoryData, refetch: refetchCategory,isSuccess:categorySuccess} = useQuery(
@@ -53,7 +52,7 @@ const IndexCategoryPostEdit = () => {
     );
 
     // query-brand-get
-    const {data:brandData, refetch: refetchBrandCategory,isSuccess:brandSuccess} = useQuery(
+    const {data:brandData, refetch: refetchBrand,isSuccess:brandSuccess} = useQuery(
         'get-brand',
         () => apiService.getData('/brands/'), {
             enabled: false
@@ -159,7 +158,6 @@ const IndexCategoryPostEdit = () => {
                 brand: editIndexCategoryData.brand,
                 stock: editIndexCategoryData.stock
             }
-            console.log(edit)
             if (editIndexCategoryData.category!==null){
                 setCheckType('category')
                 form.setFieldsValue({checkProductType:"category"})
@@ -232,7 +230,7 @@ const IndexCategoryPostEdit = () => {
             })
         }else if(checkType==='brand'){
             if (!brandSuccess){
-                refetchBrandCategory()
+                refetchBrand()
             }
             form.setFieldsValue({category:"",
                 sub_category:"",
@@ -388,9 +386,9 @@ const IndexCategoryPostEdit = () => {
 
                         <Col span={12}>
                             <Form.Item
-                                label='Изображение основной'
+                                label='Рекламная картинка'
                                 name={'image'}
-                                rules={[{required: true, message: 'Изображение баннера должно быть загружено.'}]}>
+                                rules={[{required: true, message: 'Изображение должно быть загружено.'}]}>
                                 <ImgCrop>
                                     <Upload
                                         maxCount={1}
@@ -407,7 +405,7 @@ const IndexCategoryPostEdit = () => {
                         </Col>
                     </Row>
 
-                    <Title level={3}>Размеры и цены продукции</Title>
+                    <Title level={3}>Какой это тип рекламы?</Title>
                     <Form.Item label="Размер товара" name="checkProductType">
                         <Radio.Group onChange={chooseType} value={checkType}>
                             <Radio.Button value="category">Категория</Radio.Button>

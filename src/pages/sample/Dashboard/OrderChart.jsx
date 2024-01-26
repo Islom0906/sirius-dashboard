@@ -40,8 +40,7 @@ const DealersChart = () => {
     for (const [date, count] of dataMap) {
       result.push({ date, count });
     }
-
-    return result;
+    return result.reverse();
   }, [data, isLoading, isError]);
 
   return (

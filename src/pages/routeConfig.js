@@ -17,6 +17,61 @@ const routesConfig = [
                 path: '/dashboard',
             },
             {
+                id: 'product',
+                title: 'product',
+                messageId: 'sidebar.product',
+                icon: <TiContacts/>,
+                type: 'collapse',
+                children: [
+                    {
+                        id: 'productAdd',
+                        title: 'productAdd',
+                        messageId: 'sidebar.sample.product',
+                        icon: <TiContacts/>,
+                        path: '/product',
+                    },
+                    {
+                        id: 'category',
+                        title: 'category',
+                        messageId: 'sidebar.sample.category',
+                        icon: <TiContacts/>,
+                        path: '/category',
+                    },
+                    {
+                        id: 'sub-category',
+                        title: 'sub-category',
+                        messageId: 'sidebar.sample.subCategory',
+                        icon: <TiContacts/>,
+                        path: '/sub-category',
+                    },
+                    {
+                        id: 'brand',
+                        title: 'brand',
+                        messageId: 'sidebar.sample.brand',
+                        icon: <TiContacts/>,
+                        path: '/brand',
+                    },
+                    {
+                        id: 'index-category',
+                        title: 'index-category',
+                        messageId: 'sidebar.sample.index-category',
+                        type: 'item',
+                        icon: <TiContacts/>,
+                        path: '/index-category',
+                    },
+                ]
+            },
+
+            {
+                id: 'banner',
+                title: 'banner',
+                messageId: 'sidebar.sample.banner',
+                type: 'item',
+                icon: <TiContacts/>,
+                path: '/banner',
+            },
+
+            {
                 id: 'contact',
                 title: 'contact',
                 messageId: 'sidebar.sample.contact',
@@ -40,54 +95,8 @@ const routesConfig = [
                 icon: <TiContacts/>,
                 path: '/social',
             },
-            {
-                id: 'banner',
-                title: 'banner',
-                messageId: 'sidebar.sample.banner',
-                type: 'item',
-                icon: <TiContacts/>,
-                path: '/banner',
-            },
-            {
-                id: 'category',
-                title: 'category',
-                messageId: 'sidebar.sample.category',
-                type: 'item',
-                icon: <TiContacts/>,
-                path: '/category',
-            },
-            {
-                id: 'sub-category',
-                title: 'sub-category',
-                messageId: 'sidebar.sample.subCategory',
-                type: 'item',
-                icon: <TiContacts/>,
-                path: '/sub-category',
-            },
-            {
-                id: 'brand',
-                title: 'brand',
-                messageId: 'sidebar.sample.brand',
-                type: 'item',
-                icon: <TiContacts/>,
-                path: '/brand',
-            },
-            {
-                id: 'index-category',
-                title: 'index-category',
-                messageId: 'sidebar.sample.index-category',
-                type: 'item',
-                icon: <TiContacts/>,
-                path: '/index-category',
-            },
-            {
-                id: 'product',
-                title: 'product',
-                messageId: 'sidebar.sample.product',
-                type: 'item',
-                icon: <TiContacts/>,
-                path: '/product',
-            },
+
+
         ],
     },
 ];

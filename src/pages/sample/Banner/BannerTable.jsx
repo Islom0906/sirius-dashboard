@@ -1,4 +1,4 @@
-import { Button,  Popconfirm, Space, Table,Image } from "antd";
+import {Button, Popconfirm, Space, Table, Image, Tag} from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
@@ -11,7 +11,7 @@ const ProductTable = ({data,deleteHandle}) => {
     const dispatch=useDispatch()
     const navigate =useNavigate()
     const Delete = async (id) => {
-        deleteHandle('/about/header-banner',id)
+        deleteHandle('/banners',id)
     };
 
 
@@ -30,16 +30,34 @@ const ProductTable = ({data,deleteHandle}) => {
     const columns = [
 
         {
-            title: 'Image',
-            dataIndex: 'images',
-            id: 'images',
+            title: 'Изображение для версии для ПК',
+            dataIndex: 'web_image_ru',
+            id: 'web_image_ru',
             render: (image) => {
                 return (
                     <Image
                         width={50}
-                        src={image[0]?.url}
+                        src={image}
                     />
                 )},
+        },
+        {
+            title: 'Изображение для мобильной версии',
+            dataIndex: 'rsp_image_ru',
+            id: 'rsp_image_ru',
+            render: (image) => {
+                return (
+                    <Image
+                        width={50}
+                        src={image}
+                    />
+                )},
+        },
+        {
+            title: 'Это рекламный баннер?',
+            dataIndex: 'is_advertisement',
+            id: 'is_advertisement',
+            render:(text) => text ? <Tag color="#108ee9">Да</Tag> : <Tag color="#f50">Нет</Tag>,
         },
         {
             title: 'Action',
