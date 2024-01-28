@@ -59,6 +59,14 @@ const routesConfig = [
                         icon: <TiContacts/>,
                         path: '/index-category',
                     },
+                    {
+                        id: 'stock',
+                        title: 'stock',
+                        messageId: 'sidebar.sample.stock',
+                        type: 'item',
+                        icon: <TiContacts/>,
+                        path: '/stock',
+                    },
                 ]
             },
 

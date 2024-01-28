@@ -91,6 +91,14 @@ const ProductPostEdit = () => {
             enabled: false
         }
     );
+    // query-stock-get
+    const {data: stockData, refetch: refetchStock} = useQuery(
+        'get-stock',
+        () => apiService.getData('/stocks/'), {
+            enabled: false
+        }
+    );
+
 
     // query-image
     const {
@@ -188,6 +196,7 @@ const ProductPostEdit = () => {
         refetchCategory()
         refetchSubCategory()
         refetchIndexCategory()
+        refetchStock()
     }, []);
 
 
@@ -221,7 +230,7 @@ const ProductPostEdit = () => {
                 index_category: editProductData?.index_categories ? editProductData?.index_categories.id : "",
                 description_uz: editProductData?.description_uz,
                 description_ru: editProductData?.description_ru,
-                stock: editProductData?.stock?.stock_type ? editProductData?.stock?.stock_type : null,
+                stock: editProductData?.stock?.stock_type ? editProductData?.stock?.id : null,
                 image_ids,
                 short_descriptions: editProductData?.short_descriptions,
                 characteristics: editProductData?.characteristics
@@ -252,9 +261,7 @@ const ProductPostEdit = () => {
             index_category: values?.index_category ? values.index_category : null,
             brand: values.brand,
             image_ids,
-            stock: {
-                stock_type: values.stock
-            },
+            stock:  values.stock,
             short_descriptions: values?.short_descriptions,
             characteristics: values?.characteristics,
             description_uz: values?.description_uz,
@@ -362,12 +369,13 @@ const ProductPostEdit = () => {
             form.setFieldsValue({category: null, sub_category: null, brand: null})
 
 
-        } else if (clearType === 'subCategory') {
+        }else if (clearType === 'brand') {
+            form.setFieldsValue({category: null,brand: null})
+            refetchSubCategory()
+        }
+        else if (clearType === 'subCategory') {
             form.setFieldsValue({sub_category: null, brand: null})
             refetchCategory()
-        } else if (clearType === 'brand') {
-            form.setFieldsValue({brand: null})
-            refetchSubCategory()
         }
     }
     // selection
@@ -385,21 +393,22 @@ const ProductPostEdit = () => {
     }, []);
 
     const optionStock = useMemo(() => {
-        return [
-            {
-                value: "best_seller",
-                label: 'Бестселлер',
-            },
-            {
-                value: "daily_product",
-                label: 'Ежедневный продукт',
-            },
-            {
-                value: "",
-                label: 'С тех пор',
-            },
-        ]
-    }, []);
+        const data = stockData?.map((option) => {
+            return {
+                value: option?.id,
+                label: option?.title_ru,
+            };
+        });
+
+
+        const defaultData = {
+            value: "",
+            label: 'С тех пор',
+        }
+
+        data?.push(defaultData)
+        return data
+    }, [stockData]);
 
     // option category
     const optionsCategory = useMemo(() => {
@@ -427,27 +436,28 @@ const ProductPostEdit = () => {
     }, [getSelectValue.categoryId, categoryData]);
 
     const optionsBrand = useMemo(() => {
-        if (!getSelectValue.subCategoryId) {
+        if (!getSelectValue.categoryId) {
             return []
         }
-        const filterCountry = sub_categoryData?.find(subCategory => subCategory.id === getSelectValue.subCategoryId)
-        return filterCountry?.brands?.map((option) => {
+        const filterCategory = categoryData?.find(category => category.id === getSelectValue.categoryId)
+        console.log(filterCategory)
+        return filterCategory?.brands?.map((option) => {
             return {
                 value: option?.id,
                 label: option?.title_ru,
             };
         });
-    }, [getSelectValue.subCategoryId, sub_categoryData]);
+    }, [getSelectValue.categoryId, categoryData]);
 
     const optionsIndexCategory = useMemo(() => {
-        const data=indexCategoryData?.map((option) => {
+        const data = indexCategoryData?.map((option) => {
             return {
                 value: option?.id,
                 label: option?.title_ru,
             };
         });
 
-        const defaultData={
+        const defaultData = {
             value: "",
             label: 'Не добавлять на главную страницу',
         }
@@ -514,6 +524,32 @@ const ProductPostEdit = () => {
                                           clearSelection={clearSelection}
                         />
                     </Col>
+
+                    <Col span={12}>
+                        <Form.Item
+                            label={'Выберите бренд'}
+                            name={'brand'}
+                            rules={[{
+                                required: true, message: 'Бренд должны быть выбраны'
+                            }]}
+                            wrapperCol={{
+                                span: 24,
+                            }}
+                        >
+                            <Select
+                                style={{
+                                    width: '100%',
+                                }}
+                                placeholder='Выберите одну бренд'
+                                optionLabelProp='label'
+                                options={optionsBrand}
+                            />
+                        </Form.Item>
+                        <AddBrandModal
+                            categoryData={categoryData}
+                            clearSelection={clearSelection}
+                            refetchCategory={refetchCategory}/>
+                    </Col>
                     <Col span={12}>
                         <Form.Item
                             label={'Выберите подкатегория'}
@@ -539,31 +575,6 @@ const ProductPostEdit = () => {
                                              clearSelection={clearSelection}
                                              categoryData={categoryData}
                                              refetchSubCategory={refetchSubCategory}/>
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            label={'Выберите бренд'}
-                            name={'brand'}
-                            rules={[{
-                                required: true, message: 'Бренд должны быть выбраны'
-                            }]}
-                            wrapperCol={{
-                                span: 24,
-                            }}
-                        >
-                            <Select
-                                style={{
-                                    width: '100%',
-                                }}
-                                placeholder='Выберите одну бренд'
-                                optionLabelProp='label'
-                                options={optionsBrand}
-                            />
-                        </Form.Item>
-                        <AddBrandModal
-                            subCategory={sub_categoryData}
-                            clearSelection={clearSelection}
-                            refetchSubCategory={refetchSubCategory}/>
                     </Col>
                     <Col span={12}>
                         <Form.Item

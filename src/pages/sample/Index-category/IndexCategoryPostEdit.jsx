@@ -58,6 +58,13 @@ const IndexCategoryPostEdit = () => {
             enabled: false
         }
     );
+    // query-stock-get
+    const {data:stockData, refetch: refetchStock,isSuccess:stockSuccess} = useQuery(
+        'get-stock',
+        () => apiService.getData('/stocks/'), {
+            enabled: false
+        }
+    );
 
     // query-about
     const {
@@ -153,11 +160,13 @@ const IndexCategoryPostEdit = () => {
                 image: imageInitialMain,
                 title_uz: editIndexCategoryData.title_uz,
                 title_ru: editIndexCategoryData.title_ru,
-                category: editIndexCategoryData.category,
-                sub_category: editIndexCategoryData.sub_category,
-                brand: editIndexCategoryData.brand,
-                stock: editIndexCategoryData.stock
+                category: editIndexCategoryData.category !==null ?editIndexCategoryData.category.id :"",
+                sub_category: editIndexCategoryData.sub_category !== null? editIndexCategoryData.sub_category.id :"",
+                brand: editIndexCategoryData.brand !==null ? editIndexCategoryData.brand.id: "",
+                stock: editIndexCategoryData?.stock!==null ? editIndexCategoryData?.stock?.id : ""
             }
+
+            console.log(edit)
             if (editIndexCategoryData.category!==null){
                 setCheckType('category')
                 form.setFieldsValue({checkProductType:"category"})
@@ -168,7 +177,7 @@ const IndexCategoryPostEdit = () => {
                 setCheckType('brand')
                 form.setFieldsValue({checkProductType:"brand"})
             }
-            else if(editIndexCategoryData.stock!==null){
+            else if(editIndexCategoryData?.stock?.stock_type!==null){
                 setCheckType('stock')
                 form.setFieldsValue({checkProductType:"stock"})
             }
@@ -180,7 +189,7 @@ const IndexCategoryPostEdit = () => {
     }, [editIndexCategoryData])
     const onFinish = (values) => {
 
-
+        console.log(values)
         const formData = new FormData()
 
         formData.append('title_uz', values.title_uz);
@@ -188,7 +197,7 @@ const IndexCategoryPostEdit = () => {
         formData.append('category', values.category);
         formData.append('sub_category', values.sub_category);
         formData.append('brand', values.brand);
-        formData.append('stock', "");
+        formData.append('stock', values.stock);
 
         if (fileListProps[0]?.originFileObj) {
             formData.append('image', fileListProps[0]?.originFileObj);
@@ -238,6 +247,9 @@ const IndexCategoryPostEdit = () => {
             })
         }
         else if(checkType==='stock'){
+            if (!stockSuccess){
+                refetchStock()
+            }
             form.setFieldsValue({category:"",
                 sub_category:"",
                 brand:""
@@ -277,23 +289,16 @@ const IndexCategoryPostEdit = () => {
 
 
     // select option
+    // option stock
 
     const optionStock = useMemo(() => {
-        return [
-            {
-                value: "best_seller",
-                label: 'Бестселлер',
-            },
-            {
-                value: "daily_product",
-                label: 'Ежедневный продукт',
-            },
-            {
-                value: "",
-                label: 'С тех пор',
-            },
-        ]
-    }, []);
+        return stockData?.map((option) => {
+            return {
+                value: option?.id,
+                label: option?.title_ru,
+            };
+        });
+    }, [stockData]);
 
     // option category
     const optionsCategory = useMemo(() => {

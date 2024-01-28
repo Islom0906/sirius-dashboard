@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Button, Col, Form, message, Modal, Row, Select, Upload} from "antd";
+import {Button, Col, Form, message, Modal, Row, Select, Typography,Upload} from "antd";
 import {AppLoader} from "../../../@crema";
 import FormInput from "../../../@crema/core/Form/FormInput";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import apiService from "../../../@crema/services/apis/api";
 import PropTypes from "prop-types";
 import ImgCrop from "antd-img-crop";
-
+const {Title}=Typography
 const initialValueForm = {
     image: [],
     title_uz: "",
@@ -20,6 +20,14 @@ const AddCategoryModal = ({refetchCategory,clearSelection}) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [fileListProps, setFileListProps] = useState([]);
+
+    // query-category-count-get
+    const {data: categoryCount, refetch: refetchCategoryCount} = useQuery(
+        'get-category-count',
+        () => apiService.getData('/categories-count/'), {
+            enabled: false
+        }
+    );
 
     // query-category
     const {
@@ -42,6 +50,10 @@ const AddCategoryModal = ({refetchCategory,clearSelection}) => {
         setIsModalOpen(true);
 
     };
+
+    useEffect(() => {
+        refetchCategoryCount()
+    }, []);
 
 
     const onFinish = (values) => {
@@ -110,17 +122,21 @@ const AddCategoryModal = ({refetchCategory,clearSelection}) => {
 
     const optionsIsIndex = useMemo(() => {
 
-        return [
-            {
-                value: true,
-                label: 'Показывать',
-            },
-            {
-                value: false,
-                label: 'Не показывай',
-            }
-        ]
-    }, []);
+        if (categoryCount){
+            return [
+                {
+                    value: true,
+                    label: 'Показывать',
+                    disabled:categoryCount?.count > 8
+                },
+                {
+                    value: false,
+                    label: 'Не показывай',
+                }
+            ]
+
+        }
+    }, [categoryCount]);
 
     return (
         <div>
@@ -177,9 +193,12 @@ const AddCategoryModal = ({refetchCategory,clearSelection}) => {
 
 
                             <Row gutter={20}>
+                                <Title level={5}>
+                                    Количество просмотров на главной странице: {categoryCount && categoryCount?.count}
+                                </Title>
                                 <Col span={24}>
                                     <Form.Item
-                                        label={'Сделайте так, чтобы он отображался в виде баннера на главной странице.'}
+                                        label={`Сделайте так, чтобы он отображался в виде баннера на главной странице. `}
                                         name={'is_index'}
                                         rules={[{
                                             required: true, message: 'Категория должны быть выбраны'

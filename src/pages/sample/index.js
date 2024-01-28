@@ -23,6 +23,8 @@ const Product = React.lazy(() => import('./Product'));
 const ProductPostEdit = React.lazy(() => import('./Product/ProductPostEdit'));
 const Banner = React.lazy(() => import('./Banner'));
 const BannerPostEdit = React.lazy(() => import('./Banner/BannerPostEdit'));
+const Stock = React.lazy(() => import('./Stock'));
+const StockPostEdit = React.lazy(() => import('./Stock/StockPostEdit'));
 
 
 export const samplePagesConfigs = [
@@ -131,5 +133,15 @@ export const samplePagesConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/banner/add',
     element: <BannerPostEdit/>,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/stock',
+    element: <Stock/>,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/stock/add',
+    element: <StockPostEdit/>,
   },
 ];

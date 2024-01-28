@@ -63,6 +63,14 @@ const BannerPostEdit = () => {
         }
     );
 
+    // query-stock-get
+    const {data:stockData, refetch: refetchStock,isSuccess:stockSuccess} = useQuery(
+        'get-stock',
+        () => apiService.getData('/stocks/'), {
+            enabled: false
+        }
+    );
+
     // query-product-get
     const {data: productData, refetch: refetchProduct,isSuccess:productSuccess} = useQuery(
         'get-products',
@@ -184,11 +192,11 @@ const BannerPostEdit = () => {
                 web_image_uz:imageWebUz,
                 rsp_image_uz:imageMobileUz,
                 is_advertisement:editBannerData.is_advertisement,
-                category:editBannerData.category!==null ? editBannerData.category.id :editBannerData.category ,
-                sub_category:editBannerData.sub_category!==null ? editBannerData.sub_category.id :editBannerData.sub_category,
-                brand:editBannerData.brand!== null ? editBannerData.brand.id : editBannerData.brand,
-                stock:editBannerData.stock !==null?  editBannerData.stock.stock_type : editBannerData.stock,
-                product:editBannerData.product!==null ? editBannerData.product.id :editBannerData.product,
+                category:editBannerData.category!==null ? editBannerData.category.id :"" ,
+                sub_category:editBannerData.sub_category!==null ? editBannerData.sub_category.id :"",
+                brand:editBannerData.brand!== null ? editBannerData.brand.id : "",
+                stock:editBannerData.stock !==null?  editBannerData.stock.id : "",
+                product:editBannerData.product!==null ? editBannerData.product.id :"",
             }
 
             if (editBannerData.category!==null){
@@ -307,6 +315,9 @@ const BannerPostEdit = () => {
             })
         }
         else if(checkType==='stock'){
+            if (!stockSuccess){
+                refetchStock()
+            }
             form.setFieldsValue({
                 category:"",
                 sub_category:"",
@@ -380,23 +391,14 @@ const BannerPostEdit = () => {
     };
 
     // select option
-
     const optionStock = useMemo(() => {
-        return [
-            {
-                value: "best_seller",
-                label: 'Бестселлер',
-            },
-            {
-                value: "daily_product",
-                label: 'Ежедневный продукт',
-            },
-            {
-                value: "",
-                label: 'С тех пор',
-            },
-        ]
-    }, []);
+        return stockData?.map((option) => {
+            return {
+                value: option?.id,
+                label: option?.title_ru,
+            };
+        });
+    }, [stockData]);
 
 
 
@@ -674,7 +676,7 @@ const BannerPostEdit = () => {
                                 label={'Выберите Скидка'}
                                 name={'stock'}
                                 rules={[{
-                                    required:false, message: 'Скидка должны быть выбраны'
+                                    required:checkType==='stock', message: 'Скидка должны быть выбраны'
                                 }]}
                                 wrapperCol={{
                                     span: 24,

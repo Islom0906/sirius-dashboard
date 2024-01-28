@@ -1,4 +1,4 @@
-import {Button, Popconfirm, Space, Table} from "antd";
+import {Button, Popconfirm, Space, Table, Tag} from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
@@ -34,10 +34,16 @@ const BrandTable = ({data,deleteHandle}) => {
             render: (text) => <p>{text}</p>,
         },
         {
-            title: 'Sub Category',
-            dataIndex: 'sub_categories',
-            id: 'sub_categories',
-            render: (text) => <p>{text?.title_ru}</p>,
+            title: 'Categories',
+            dataIndex: 'categories',
+            id: 'categories',
+            render: (text) => <Space direction={"vertical"}>
+                {
+                    text?.map(type => (
+                        <Tag key={type?.id}>{type.title_ru}</Tag>
+                    ))
+                }
+            </Space>,
         },
         {
             title: 'Action',

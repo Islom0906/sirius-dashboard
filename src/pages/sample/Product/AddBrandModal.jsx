@@ -9,11 +9,11 @@ import PropTypes from "prop-types";
 const initialValueForm = {
     title_uz: "",
     title_ru: "",
-    sub_category:null,
+    category:[],
 };
 
 
-const AddBrandModal = ({subCategory,refetchSubCategory,clearSelection}) => {
+const AddBrandModal = ({categoryData,refetchCategory,clearSelection}) => {
     const [form] = Form.useForm();
 
 
@@ -65,7 +65,7 @@ const AddBrandModal = ({subCategory,refetchSubCategory,clearSelection}) => {
 
     useEffect(() => {
         if (postBrandsSuccess){
-            refetchSubCategory()
+            refetchCategory()
             setIsModalOpen(false)
             clearSelection('brand')
             form.setFieldsValue(initialValueForm)
@@ -78,15 +78,15 @@ const AddBrandModal = ({subCategory,refetchSubCategory,clearSelection}) => {
         console.log("Failed:", errorInfo);
     };
 
-    // option sub-category
-    const optionsSubCategory = useMemo(() => {
-        return subCategory?.map((option) => {
+    // option category
+    const optionsCategory = useMemo(() => {
+        return categoryData?.map((option) => {
             return {
                 value: option?.id,
                 label: option?.title_ru,
             };
         });
-    }, [subCategory]);
+    }, [categoryData]);
 
 
 
@@ -138,7 +138,7 @@ const AddBrandModal = ({subCategory,refetchSubCategory,clearSelection}) => {
                                 <Col span={24}>
                                     <Form.Item
                                         label={'Выберите подкатегория'}
-                                        name={'sub_category'}
+                                        name={'category'}
                                         rules={[{
                                             required: true, message: 'Страну должны быть выбраны'
                                         }]}
@@ -147,12 +147,14 @@ const AddBrandModal = ({subCategory,refetchSubCategory,clearSelection}) => {
                                         }}
                                     >
                                         <Select
+                                            mode="multiple"
+                                            allowClear
                                             style={{
                                                 width: '100%',
                                             }}
                                             placeholder='Выберите одну подкатегория'
                                             optionLabelProp='label'
-                                            options={optionsSubCategory}
+                                            options={optionsCategory}
                                         />
                                     </Form.Item>
 
@@ -168,8 +170,8 @@ const AddBrandModal = ({subCategory,refetchSubCategory,clearSelection}) => {
 };
 
 AddBrandModal.propTypes={
-    refetchSubCategory:PropTypes.func,
-    subCategory:PropTypes.array,
+    refetchCategory:PropTypes.func,
+    categoryData:PropTypes.array,
     clearSelection:PropTypes.func
 }
 

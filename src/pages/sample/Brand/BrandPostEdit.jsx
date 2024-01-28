@@ -11,7 +11,7 @@ import FormInput from "../../../@crema/core/Form/FormInput";
 const initialValueForm = {
     title_uz: "",
     title_ru: "",
-    sub_category:null,
+    category:[],
 };
 
 
@@ -29,7 +29,7 @@ const BrandPostEdit = () => {
     // query-sub-category-get
     const {data: categoryData} = useQuery(
         'get-category',
-        () => apiService.getData('/sub_categories/')
+        () => apiService.getData('/categories/')
     );
 
     // query-brand
@@ -111,11 +111,17 @@ const BrandPostEdit = () => {
 
     //edit brand
     useEffect(() => {
+        const category=[]
         if (editBrandSuccess) {
+
+            editBrandData?.categories?.map((item)=>{
+                category.push(item?.id)
+            })
+
             const edit = {
                 title_uz: editBrandData.title_uz,
                 title_ru: editBrandData.title_ru,
-                sub_category: editBrandData.sub_categories.id,
+                category
             }
             form.setFieldsValue(edit)
         }
@@ -216,16 +222,18 @@ const BrandPostEdit = () => {
                         </Col>
                         <Col span={24}>
                             <Form.Item
-                                label={'Выберите подкатегория'}
-                                name={'sub_category'}
+                                label={'Выберите категория'}
+                                name={'category'}
                                 rules={[{
-                                    required: true, message: 'Страну должны быть выбраны'
+                                    required: true, message: 'Категория должны быть выбраны'
                                 }]}
                                 wrapperCol={{
                                     span: 24,
                                 }}
                             >
                                 <Select
+                                    mode="multiple"
+                                    allowClear
                                     style={{
                                         width: '100%',
                                     }}

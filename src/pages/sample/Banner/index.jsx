@@ -17,7 +17,7 @@ const Index = () => {
                                                                               id
                                                                             }) => apiService.deleteData(url, id))
   const {data, isLoading: getBannerLoading, refetch} = useQuery('banner-get', () =>
-          apiService.getData('/banners/'), {
+          apiService.getData('/banner/'), {
         // enabled:false,
 
         onError: (error) => {

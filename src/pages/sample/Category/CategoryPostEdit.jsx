@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Button, Col, Form, message, Row, Select, Upload} from "antd";
+import {Button, Col, Form, message, Row, Select, Typography, Upload} from "antd";
 import {useMutation, useQuery} from "react-query";
 import apiService from "../../../@crema/services/apis/api";
 import {AppLoader} from "../../../@crema";
@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import ImgCrop from "antd-img-crop";
 import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 import FormInput from "../../../@crema/core/Form/FormInput";
+const {Title}=Typography
 
 
 const initialValueForm = {
@@ -30,10 +31,10 @@ const CategoryPostEdit = () => {
     const [fileListProps, setFileListProps] = useState([]);
 
 
-    // query-category-get
-    const {data: categoryData, refetch: refetchCategory} = useQuery(
-        'get-category',
-        () => apiService.getData('/categories/'), {
+    // query-category-count-get
+    const {data: categoryCount, refetch: refetchCategoryCount} = useQuery(
+        'get-category-count',
+        () => apiService.getData('/categories-count/'), {
             enabled: false
         }
     );
@@ -110,8 +111,8 @@ const CategoryPostEdit = () => {
     useEffect(() => {
         if (editId === "") {
             form.setFieldsValue(initialValueForm)
-            refetchCategory()
         }
+            refetchCategoryCount()
     }, []);
 
 
@@ -211,12 +212,12 @@ const CategoryPostEdit = () => {
 
     const optionsIsIndex = useMemo(() => {
 
-        if (categoryData){
+        if (categoryCount){
         return [
             {
                 value: true,
                 label: 'Показывать',
-                disabled:categoryData[0]?.count > 8
+                disabled:categoryCount?.count > 8
             },
             {
                 value: false,
@@ -225,7 +226,7 @@ const CategoryPostEdit = () => {
         ]
 
         }
-    }, [categoryData]);
+    }, [categoryCount]);
     return (
         <div>
             {(postCategoryLoading || editCategoryLoading || putCategoryLoading) ? <AppLoader/> :
@@ -277,8 +278,11 @@ const CategoryPostEdit = () => {
 
                     <Row gutter={20}>
                         <Col span={12}>
+                            <Title level={5}>
+                                Количество просмотров на главной странице: {categoryCount && categoryCount?.count}
+                            </Title>
                             <Form.Item
-                                label={`Сделайте так, чтобы он отображался в виде баннера на главной странице. Количество просмотров на главной странице: ${categoryData && categoryData[0]?.count}`}
+                                label={`Сделайте так, чтобы он отображался в виде баннера на главной странице.`}
                                 name={'is_index'}
                                 rules={[{
                                     required: true, message: 'Категория должны быть выбраны'
@@ -298,6 +302,7 @@ const CategoryPostEdit = () => {
                             </Form.Item>
                         </Col>
                         <Col span={12}>
+
                             <Form.Item
                                 label='Изображение основной'
                                 name={'image'}
