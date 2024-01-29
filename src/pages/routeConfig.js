@@ -1,4 +1,12 @@
 import {TiContacts} from "react-icons/ti";
+import {IoIosStats} from "react-icons/io";
+import {HiOutlineInbox} from "react-icons/hi";
+import {GrTableAdd} from "react-icons/gr";
+import {MdOutlineCategory, MdOutlineMiscellaneousServices} from "react-icons/md";
+import {TbCategoryPlus, TbDiscount2} from "react-icons/tb";
+import {IoLogoAppleAr, IoShareSocialOutline} from "react-icons/io5";
+import {BiCategoryAlt, BiSolidImageAdd} from "react-icons/bi";
+import {BsBasket3} from "react-icons/bs";
 
 
 const routesConfig = [
@@ -13,42 +21,42 @@ const routesConfig = [
                 title: 'dashboard',
                 messageId: 'sidebar.sample.dashboard',
                 type: 'item',
-                icon: <TiContacts/>,
+                icon: <IoIosStats/>,
                 path: '/dashboard',
             },
             {
                 id: 'product',
                 title: 'product',
                 messageId: 'sidebar.product',
-                icon: <TiContacts/>,
+                icon: <HiOutlineInbox/>,
                 type: 'collapse',
                 children: [
                     {
                         id: 'productAdd',
                         title: 'productAdd',
                         messageId: 'sidebar.sample.product',
-                        icon: <TiContacts/>,
+                        icon: <GrTableAdd/>,
                         path: '/product',
                     },
                     {
                         id: 'category',
                         title: 'category',
                         messageId: 'sidebar.sample.category',
-                        icon: <TiContacts/>,
+                        icon: <MdOutlineCategory/>,
                         path: '/category',
                     },
                     {
                         id: 'sub-category',
                         title: 'sub-category',
                         messageId: 'sidebar.sample.subCategory',
-                        icon: <TiContacts/>,
+                        icon: <TbCategoryPlus/>,
                         path: '/sub-category',
                     },
                     {
                         id: 'brand',
                         title: 'brand',
                         messageId: 'sidebar.sample.brand',
-                        icon: <TiContacts/>,
+                        icon: <IoLogoAppleAr/>,
                         path: '/brand',
                     },
                     {
@@ -56,7 +64,7 @@ const routesConfig = [
                         title: 'index-category',
                         messageId: 'sidebar.sample.index-category',
                         type: 'item',
-                        icon: <TiContacts/>,
+                        icon: <BiCategoryAlt/>,
                         path: '/index-category',
                     },
                     {
@@ -64,10 +72,18 @@ const routesConfig = [
                         title: 'stock',
                         messageId: 'sidebar.sample.stock',
                         type: 'item',
-                        icon: <TiContacts/>,
+                        icon: <TbDiscount2/>,
                         path: '/stock',
                     },
                 ]
+            },
+            {
+                id: 'order',
+                title: 'order',
+                messageId: 'sidebar.sample.order',
+                type: 'item',
+                icon: <BsBasket3/>,
+                path: '/order',
             },
 
             {
@@ -75,7 +91,7 @@ const routesConfig = [
                 title: 'banner',
                 messageId: 'sidebar.sample.banner',
                 type: 'item',
-                icon: <TiContacts/>,
+                icon: <BiSolidImageAdd/>,
                 path: '/banner',
             },
 
@@ -92,7 +108,7 @@ const routesConfig = [
                 title: 'service',
                 messageId: 'sidebar.sample.service',
                 type: 'item',
-                icon: <TiContacts/>,
+                icon: <MdOutlineMiscellaneousServices/>,
                 path: '/service',
             },
             {
@@ -100,7 +116,7 @@ const routesConfig = [
                 title: 'social',
                 messageId: 'sidebar.sample.social',
                 type: 'item',
-                icon: <TiContacts/>,
+                icon: <IoShareSocialOutline/>,
                 path: '/social',
             },
 

@@ -11,7 +11,7 @@ import FormInput from "../../../@crema/core/Form/FormInput";
 const initialValueForm = {
     title_uz: "",
     title_ru: "",
-    category:[],
+    sub_category:[],
 };
 
 
@@ -29,7 +29,7 @@ const BrandPostEdit = () => {
     // query-sub-category-get
     const {data: categoryData} = useQuery(
         'get-category',
-        () => apiService.getData('/categories/')
+        () => apiService.getData('/sub_categories/')
     );
 
     // query-brand
@@ -111,17 +111,17 @@ const BrandPostEdit = () => {
 
     //edit brand
     useEffect(() => {
-        const category=[]
-        if (editBrandSuccess) {
+        const sub_category=[]
 
-            editBrandData?.categories?.map((item)=>{
-                category.push(item?.id)
+        if (editBrandSuccess) {
+            editBrandData?.sub_categories?.map((sub)=>{
+                sub_category.push(sub.id)
             })
 
             const edit = {
                 title_uz: editBrandData.title_uz,
                 title_ru: editBrandData.title_ru,
-                category
+                sub_category,
             }
             form.setFieldsValue(edit)
         }
@@ -222,10 +222,11 @@ const BrandPostEdit = () => {
                         </Col>
                         <Col span={24}>
                             <Form.Item
-                                label={'Выберите категория'}
-                                name={'category'}
+
+                                label={'Выберите подкатегория'}
+                                name={'sub_category'}
                                 rules={[{
-                                    required: true, message: 'Категория должны быть выбраны'
+                                    required: true, message: 'Страну должны быть выбраны'
                                 }]}
                                 wrapperCol={{
                                     span: 24,

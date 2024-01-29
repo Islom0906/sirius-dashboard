@@ -36,14 +36,7 @@ const SubCategoryPostEdit = () => {
         },
     );
 
-    // query-brand-get
-    const {data: brandData, refetch: brandFetch} = useQuery(
-        'get-brand',
-        () => apiService.getData('/brands/'),
-        {
-            enabled: false,
-        },
-    );
+
 
     // query-sub-category
     const {
@@ -119,26 +112,20 @@ const SubCategoryPostEdit = () => {
             form.setFieldsValue(initialValueForm)
         }
         categoryFetch()
-        brandFetch()
     }, []);
 
 
     //edit sub-category
     useEffect(() => {
-        const brand=[]
         if (editSubCategorySuccess) {
 
-            editSubCategoryData?.brands?.map((item)=>{
-                brand.push(item?.id)
-            })
+
 
             const edit = {
                 title_uz: editSubCategoryData.title_uz,
                 title_ru: editSubCategoryData.title_ru,
                 category: editSubCategoryData.categories.id,
-                brand
             }
-            console.log(edit)
             form.setFieldsValue(edit)
         }
 
@@ -198,15 +185,7 @@ const SubCategoryPostEdit = () => {
         });
     }, [categoryData]);
 
-    // option brands
-    const optionsBrand = useMemo(() => {
-        return brandData?.map((option) => {
-            return {
-                value: option?.id,
-                label: option?.title_ru,
-            };
-        });
-    }, [brandData]);
+
 
     return (
         <div>
@@ -271,30 +250,7 @@ const SubCategoryPostEdit = () => {
                             </Form.Item>
 
                         </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label={'Выберите бренд'}
-                                name={'brand'}
-                                rules={[{
-                                    required: true, message: 'Бренд должны быть выбраны'
-                                }]}
-                                wrapperCol={{
-                                    span: 24,
-                                }}
-                            >
-                                <Select
-                                    mode="multiple"
-                                    allowClear
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                    placeholder='Выберите одну бренд'
-                                    optionLabelProp='label'
-                                    options={optionsBrand}
-                                />
-                            </Form.Item>
 
-                        </Col>
                     </Row>
 
 

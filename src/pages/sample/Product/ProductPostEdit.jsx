@@ -230,7 +230,7 @@ const ProductPostEdit = () => {
                 index_category: editProductData?.index_categories ? editProductData?.index_categories.id : "",
                 description_uz: editProductData?.description_uz,
                 description_ru: editProductData?.description_ru,
-                stock: editProductData?.stock?.stock_type ? editProductData?.stock?.id : null,
+                stock: editProductData?.stock?.stock_type ? editProductData?.stock?.id : "",
                 image_ids,
                 short_descriptions: editProductData?.short_descriptions,
                 characteristics: editProductData?.characteristics
@@ -369,13 +369,12 @@ const ProductPostEdit = () => {
             form.setFieldsValue({category: null, sub_category: null, brand: null})
 
 
-        }else if (clearType === 'brand') {
-            form.setFieldsValue({category: null,brand: null})
-            refetchSubCategory()
-        }
-        else if (clearType === 'subCategory') {
+        } else if (clearType === 'subCategory') {
             form.setFieldsValue({sub_category: null, brand: null})
             refetchCategory()
+        } else if (clearType === 'brand') {
+            form.setFieldsValue({brand: null})
+            refetchSubCategory()
         }
     }
     // selection
@@ -403,7 +402,7 @@ const ProductPostEdit = () => {
 
         const defaultData = {
             value: "",
-            label: 'С тех пор',
+            label: 'Оно не принадлежит ни одному',
         }
 
         data?.push(defaultData)
@@ -436,10 +435,10 @@ const ProductPostEdit = () => {
     }, [getSelectValue.categoryId, categoryData]);
 
     const optionsBrand = useMemo(() => {
-        if (!getSelectValue.categoryId) {
+        if (!getSelectValue.subCategoryId) {
             return []
         }
-        const filterCategory = categoryData?.find(category => category.id === getSelectValue.categoryId)
+        const filterCategory = sub_categoryData?.find(subCategory => subCategory.id === getSelectValue.subCategoryId)
         console.log(filterCategory)
         return filterCategory?.brands?.map((option) => {
             return {
@@ -447,7 +446,7 @@ const ProductPostEdit = () => {
                 label: option?.title_ru,
             };
         });
-    }, [getSelectValue.categoryId, categoryData]);
+    }, [getSelectValue.subCategoryId, sub_categoryData]);
 
     const optionsIndexCategory = useMemo(() => {
         const data = indexCategoryData?.map((option) => {
@@ -525,31 +524,7 @@ const ProductPostEdit = () => {
                         />
                     </Col>
 
-                    <Col span={12}>
-                        <Form.Item
-                            label={'Выберите бренд'}
-                            name={'brand'}
-                            rules={[{
-                                required: true, message: 'Бренд должны быть выбраны'
-                            }]}
-                            wrapperCol={{
-                                span: 24,
-                            }}
-                        >
-                            <Select
-                                style={{
-                                    width: '100%',
-                                }}
-                                placeholder='Выберите одну бренд'
-                                optionLabelProp='label'
-                                options={optionsBrand}
-                            />
-                        </Form.Item>
-                        <AddBrandModal
-                            categoryData={categoryData}
-                            clearSelection={clearSelection}
-                            refetchCategory={refetchCategory}/>
-                    </Col>
+
                     <Col span={12}>
                         <Form.Item
                             label={'Выберите подкатегория'}
@@ -575,6 +550,31 @@ const ProductPostEdit = () => {
                                              clearSelection={clearSelection}
                                              categoryData={categoryData}
                                              refetchSubCategory={refetchSubCategory}/>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label={'Выберите бренд'}
+                            name={'brand'}
+                            rules={[{
+                                required: true, message: 'Бренд должны быть выбраны'
+                            }]}
+                            wrapperCol={{
+                                span: 24,
+                            }}
+                        >
+                            <Select
+                                style={{
+                                    width: '100%',
+                                }}
+                                placeholder='Выберите одну бренд'
+                                optionLabelProp='label'
+                                options={optionsBrand}
+                            />
+                        </Form.Item>
+                        <AddBrandModal
+                            subCategory={sub_categoryData}
+                            clearSelection={clearSelection}
+                            refetchSubCategory={refetchSubCategory}/>
                     </Col>
                     <Col span={12}>
                         <Form.Item

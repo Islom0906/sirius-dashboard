@@ -1,4 +1,14 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend ,ResponsiveContainer} from 'recharts';
+import {
+    ComposedChart,
+    Line,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+} from 'recharts';
 import { useQuery} from "react-query";
 import apiService from "../../../@crema/services/apis/api";
 import {message,Typography } from 'antd';
@@ -40,15 +50,22 @@ const DealersChart = () => {
     return (
         <div>
             <Title type='h2'>Статистика создания продукта</Title>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart  data={dataProduct}>
-                    <CartesianGrid strokeDasharray="3 6" />
-                    <XAxis dataKey="date" />
+
+            <ResponsiveContainer width='100%' height={300}>
+                <ComposedChart data={dataProduct}  margin={{
+                    top: 20,
+                    right: 20,
+                    bottom: 20,
+                    left: 20,
+                }}>
+                    <CartesianGrid stroke="#f5f5f5"  />
+                    <XAxis dataKey='date' scale="band" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="product" fill="#8884d8" />
-                </BarChart>
+                    <Bar dataKey='product' barSize={20} fill="#413ea0" />
+                    <Line type="monotone" dataKey="product"  stroke="#ff7300" />
+                </ComposedChart>
             </ResponsiveContainer>
         </div>
     )

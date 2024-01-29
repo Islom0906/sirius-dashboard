@@ -4,7 +4,7 @@ import {RoutePermittedRole} from '../../shared/constants/AppEnums';
 
 
 const Dashboard = React.lazy(() => import('./Dashboard'));
-
+const Order = React.lazy(() => import('./Order'));
 const Contact = React.lazy(() => import('./Contact'));
 const ContactPostEdit = React.lazy(() => import('./Contact/ContactPostEdit'));
 const Services = React.lazy(() => import('./Service'));
@@ -33,6 +33,11 @@ export const samplePagesConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard',
     element: <Dashboard/>,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/Order',
+    element: <Order/>,
   },
   {
     permittedRole: RoutePermittedRole.user,

@@ -35,8 +35,8 @@ const BrandTable = ({data,deleteHandle}) => {
         },
         {
             title: 'Categories',
-            dataIndex: 'categories',
-            id: 'categories',
+            dataIndex: 'sub_categories',
+            id: 'sub_categories',
             render: (text) => <Space direction={"vertical"}>
                 {
                     text?.map(type => (

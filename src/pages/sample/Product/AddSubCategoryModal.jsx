@@ -20,7 +20,7 @@ const AddSubCategoryModal = ({refetchSubCategory, categoryData,clearSelection}) 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-    // query-brands
+    // query-sub-category
     const {
         mutate: postSubCategoryMutate,
         data: postSubCategory,

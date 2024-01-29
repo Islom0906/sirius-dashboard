@@ -10,7 +10,7 @@ const SITE_URL =
 
 const FACEBOOK_APP_ID = 'XXXXXXXXX';
 
-const defaultTitle = 'Evolution Motors admin Panel';
+const defaultTitle = 'Sirius Tech admin Panel';
 const defaultDescription =
   'Admin Panel';
 const defaultImage =
