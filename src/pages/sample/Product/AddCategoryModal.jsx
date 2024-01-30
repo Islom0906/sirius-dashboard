@@ -127,7 +127,7 @@ const AddCategoryModal = ({refetchCategory,clearSelection}) => {
                 {
                     value: true,
                     label: 'Показывать',
-                    disabled:categoryCount?.count > 8
+                    disabled:categoryCount?.count > 6
                 },
                 {
                     value: false,
