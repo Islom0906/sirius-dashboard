@@ -22,12 +22,12 @@ const columns = [
     key: 'address',
     render: (text) => <p>{text}</p>,
   },
-  // {
-  //   title: 'All Price',
-  //   dataIndex: 'allPrice',
-  //   key: 'allPrice',
-  //   render: (text) => <p>{text}</p>,
-  // },
+  {
+    title: 'All Price',
+    dataIndex: 'total_price',
+    key: 'total_price',
+    render: (text) => <p>{text}</p>,
+  },
   {
     title: 'Date',
     dataIndex: 'created_at',
@@ -37,24 +37,24 @@ const columns = [
 ];
 
 const columnsOrders = [
-  // {
-  //   title: 'Product Name',
-  //   dataIndex: 'productName',
-  //   key: 'productName',
-  //   render: (text) => <p>{text}</p>,
-  // },
+  {
+    title: 'Product Name',
+    dataIndex: 'title',
+    key: 'title',
+    render: (text) => <p>{text}</p>,
+  },
   {
     title: 'Product Count',
-    dataIndex: 'productNumber',
-    key: 'productNumber',
+    dataIndex: 'count',
+    key: 'count',
     render: (text) => <Tag>{text}</Tag>,
   },
-  // {
-  //   title: 'Product Price',
-  //   dataIndex: 'productsPrice',
-  //   key: 'productsPrice',
-  //   render: (text) => <p>{text}</p>,
-  // },
+  {
+    title: 'Product Price',
+    dataIndex: 'price',
+    key: 'price',
+    render: (text) => <p>{text}</p>,
+  },
 
 ];
 
@@ -87,7 +87,7 @@ const Orders = () => {
               columns={columns}
               expandable={{
                 expandedRowRender: (record) => {
-                  console.log(record)
+                  console.log(record.order)
                   return (
                       <Table
                           columns={columnsOrders}
